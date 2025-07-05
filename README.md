@@ -5,7 +5,7 @@ This site showcases my journey, skills, projects, and experiences as an aspiring
 
 ## 🛠️ Tech Stack
 
-- **Frontend:** HTML5, CSS3, JavaScript
+- **Frontend:** HTML, CSS, JavaScript
 - **Design:** Responsive layout, modern UI/UX
 
 ## 📁 Folder Structure
