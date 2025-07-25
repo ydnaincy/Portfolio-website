@@ -3,443 +3,678 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Naincy Yadav - AI & Tech Portfolio</title>
-    <link rel="stylesheet" href="styles.css">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <meta name="description" content="AI Engineer & VR Developer - Naincy Yadav's Portfolio showcasing innovative projects in AI, Machine Learning, and Virtual Reality">
-    <meta name="keywords" content="AI Engineer, VR Developer, Machine Learning, Generative AI, Portfolio">
-    <meta name="author" content="Naincy Yadav">
-    
+    <title>Naincy Yadav - AI & Engineering Portfolio</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Courier New', monospace;
+            background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 50%, #16213e 100%);
+            color: #ffffff;
+            overflow-x: hidden;
+            scroll-behavior: smooth;
+        }
+
+        .container {
+            position: relative;
+            z-index: 10;
+        }
+
+        /* Hero Section */
+        .hero {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-content {
+            text-align: center;
+            z-index: 2;
+            animation: fadeInUp 2s ease-out;
+        }
+
+        .hero h1 {
+            font-size: 4rem;
+            background: linear-gradient(45deg, #00ffff, #ff6b6b, #4ecdc4);
+            background-size: 200% 200%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: gradientShift 3s ease-in-out infinite, glow 2s ease-in-out infinite alternate;
+            margin-bottom: 1rem;
+        }
+
+        .tagline {
+            font-size: 1.5rem;
+            color: #00ffff;
+            opacity: 0.8;
+            animation: typewriter 3s steps(40) 1s both;
+            overflow: hidden;
+            white-space: nowrap;
+            border-right: 2px solid #00ffff;
+        }
+
+        /* About Section */
+        .about {
+            min-height: 100vh;
+            padding: 5rem 2rem;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .about-card {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(0, 255, 255, 0.3);
+            border-radius: 20px;
+            padding: 3rem;
+            max-width: 1000px;
+            transform: perspective(1000px) rotateX(5deg);
+            transition: all 0.6s ease;
+            box-shadow: 0 20px 40px rgba(0, 255, 255, 0.1);
+        }
+
+        .about-card:hover {
+            transform: perspective(1000px) rotateX(0deg) translateY(-10px);
+            box-shadow: 0 30px 60px rgba(0, 255, 255, 0.2);
+        }
+
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .skill-item {
+            background: rgba(0, 255, 255, 0.1);
+            padding: 1rem;
+            border-radius: 10px;
+            border: 1px solid rgba(0, 255, 255, 0.3);
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .skill-item:hover {
+            background: rgba(0, 255, 255, 0.2);
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 255, 255, 0.3);
+        }
+
+        /* Projects Section */
+        .projects {
+            min-height: 100vh;
+            padding: 5rem 2rem;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 3rem;
+            margin-bottom: 3rem;
+            color: #00ffff;
+            text-shadow: 0 0 20px rgba(0, 255, 255, 0.5);
+        }
+
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .project-cube {
+            height: 300px;
+            position: relative;
+            perspective: 1000px;
+            cursor: pointer;
+        }
+
+        .cube-inner {
+            width: 100%;
+            height: 100%;
+            transition: transform 0.8s;
+            transform-style: preserve-3d;
+            position: relative;
+        }
+
+        .project-cube:hover .cube-inner {
+            transform: rotateY(180deg);
+        }
+
+        .cube-face {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(0, 255, 255, 0.3);
+            border-radius: 15px;
+            padding: 2rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .cube-back {
+            transform: rotateY(180deg);
+            background: rgba(0, 255, 255, 0.1);
+        }
+
+        /* Resume Section */
+        .resume {
+            min-height: 100vh;
+            padding: 5rem 2rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .resume-folder {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(30px);
+            border: 2px solid rgba(0, 255, 255, 0.3);
+            border-radius: 20px;
+            padding: 3rem;
+            max-width: 900px;
+            position: relative;
+            transform: perspective(1000px) rotateX(10deg);
+            transition: all 0.6s ease;
+        }
+
+        .resume-folder:hover {
+            transform: perspective(1000px) rotateX(0deg);
+        }
+
+        .achievement-item {
+            background: linear-gradient(45deg, rgba(255, 107, 107, 0.1), rgba(78, 205, 196, 0.1));
+            margin: 1rem 0;
+            padding: 1.5rem;
+            border-radius: 10px;
+            border-left: 4px solid #00ffff;
+            transition: all 0.3s ease;
+        }
+
+        .achievement-item:hover {
+            transform: translateX(10px);
+            box-shadow: 0 5px 15px rgba(0, 255, 255, 0.3);
+        }
+
+        /* Contact Section */
+        .contact {
+            min-height: 100vh;
+            padding: 5rem 2rem;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .terminal {
+            background: rgba(0, 0, 0, 0.8);
+            border: 2px solid #00ffff;
+            border-radius: 15px;
+            padding: 2rem;
+            max-width: 600px;
+            width: 100%;
+            font-family: 'Courier New', monospace;
+            box-shadow: 0 0 30px rgba(0, 255, 255, 0.3);
+        }
+
+        .terminal-header {
+            background: #00ffff;
+            color: #000;
+            padding: 0.5rem 1rem;
+            margin: -2rem -2rem 1rem -2rem;
+            border-radius: 13px 13px 0 0;
+            font-weight: bold;
+        }
+
+        .contact-form {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .contact-form input,
+        .contact-form textarea {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(0, 255, 255, 0.3);
+            border-radius: 5px;
+            padding: 1rem;
+            color: #fff;
+            font-family: 'Courier New', monospace;
+        }
+
+        .contact-form input::placeholder,
+        .contact-form textarea::placeholder {
+            color: rgba(255, 255, 255, 0.5);
+        }
+
+        .send-btn {
+            background: linear-gradient(45deg, #00ffff, #ff6b6b);
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 5px;
+            color: #000;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .send-btn:hover {
+            box-shadow: 0 5px 15px rgba(0, 255, 255, 0.5);
+            transform: translateY(-2px);
+        }
+
+        .social-icons {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .social-icon {
+            width: 60px;
+            height: 60px;
+            background: rgba(0, 255, 255, 0.1);
+            border: 2px solid rgba(0, 255, 255, 0.3);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            color: #00ffff;
+            font-size: 1.5rem;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .social-icon:hover {
+            background: rgba(0, 255, 255, 0.3);
+            box-shadow: 0 0 20px rgba(0, 255, 255, 0.5);
+            transform: translateY(-5px) scale(1.1);
+        }
+
+        /* Navigation */
+        .nav {
+            position: fixed;
+            top: 2rem;
+            right: 2rem;
+            z-index: 100;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .nav-dot {
+            width: 15px;
+            height: 15px;
+            border: 2px solid rgba(0, 255, 255, 0.5);
+            border-radius: 50%;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .nav-dot.active,
+        .nav-dot:hover {
+            background: #00ffff;
+            box-shadow: 0 0 15px rgba(0, 255, 255, 0.8);
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes gradientShift {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
+
+        @keyframes glow {
+            from { text-shadow: 0 0 20px rgba(0, 255, 255, 0.5); }
+            to { text-shadow: 0 0 30px rgba(0, 255, 255, 0.8), 0 0 40px rgba(0, 255, 255, 0.6); }
+        }
+
+        @keyframes typewriter {
+            from { width: 0; }
+            to { width: 100%; }
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+        }
+
+        .floating {
+            animation: float 6s ease-in-out infinite;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero h1 { font-size: 2.5rem; }
+            .tagline { font-size: 1rem; }
+            .section-title { font-size: 2rem; }
+            .projects-grid { grid-template-columns: 1fr; }
+            .nav { display: none; }
+        }
+
+        /* 3D Background Canvas */
+        #bg-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+        }
+    </style>
 </head>
 <body>
-    <div class="floating-element floating-1"></div>
-    <div class="floating-element floating-2"></div>
-    <div class="floating-element floating-3"></div>
+    <canvas id="bg-canvas"></canvas>
+    
+    <!-- Navigation -->
+    <div class="nav">
+        <div class="nav-dot active" data-section="hero"></div>
+        <div class="nav-dot" data-section="about"></div>
+        <div class="nav-dot" data-section="projects"></div>
+        <div class="nav-dot" data-section="resume"></div>
+        <div class="nav-dot" data-section="contact"></div>
+    </div>
 
-    <header>
-        <nav class="container">
-            <div class="logo">
-                <span class="logo-text">Naincy Yadav</span>
+    <div class="container">
+        <!-- Hero Section -->
+        <section class="hero" id="hero">
+            <div class="hero-content">
+                <h1>NAINCY YADAV</h1>
+                <div class="tagline">AI Engineer • VR Developer • Research Lead</div>
+            </div>
+        </section>
+
+        <!-- About Section -->
+        <section class="about" id="about">
+            <div class="about-card floating">
+                <h2 style="color: #00ffff; font-size: 2.5rem; margin-bottom: 1rem;">About Me</h2>
+                <p style="font-size: 1.2rem; line-height: 1.6; margin-bottom: 2rem;">
+                    Electronics & Communication Engineering student with AI specialization at IGDTUW. 
+                    Passionate about bridging the gap between cutting-edge AI technologies and immersive experiences. 
+                    Currently leading research initiatives and developing innovative solutions in GenAI, VR/AR, and machine learning.
+                </p>
                 
+                <div class="skills-grid">
+                    <div class="skill-item">
+                        <h3>🤖 AI & Machine Learning</h3>
+                        <p>Generative AI, Prompt Engineering, Deep Learning, Computer Vision</p>
+                    </div>
+                    <div class="skill-item">
+                        <h3>🥽 VR/AR Development</h3>
+                        <p>Unity, Blender, A-Frame, 3D Modeling, Immersive Tech</p>
+                    </div>
+                    <div class="skill-item">
+                        <h3>💻 Programming</h3>
+                        <p>Python, Java, C, SQL, React, HTML/CSS</p>
+                    </div>
+                    <div class="skill-item">
+                        <h3>👥 Leadership</h3>
+                        <p>Research Lead at PROTEGE, Team Management, Project Coordination</p>
+                    </div>
+                </div>
             </div>
-            <ul class="nav-links">
-                <li><a href="#home">Home</a></li>
-                <li><a href="#about">About</a></li>
-                <li><a href="#education">Education</a></li>
-                <li><a href="#skills">Skills</a></li>
-                <li><a href="#projects">Projects</a></li>
-                <li><a href="#experience">Experience</a></li>
-                <li><a href="#achievements">Achievements</a></li>
-                <li><a href="#contact">Contact</a></li>
-            </ul>
-            <div class="mobile-menu-toggle">
-                <span></span>
-                <span></span>
-                <span></span>
-            </div>
-        </nav>
-    </header>
+        </section>
 
-    <section id="home" class="hero">
-        <div class="hero-content">
-            <h1 class="hero-title">Naincy Yadav</h1>
-            <p class="hero-subtitle">AI Engineer | VR Developer | Innovation Enthusiast</p>
-            <p class="hero-description">Building tomorrow's technology today with AI, ML, and immersive experiences</p>
-            <div class="hero-buttons">
-                <a href="#about" class="cta-button primary">Explore My Journey</a>
-                <a href="#contact" class="cta-button secondary">Get In Touch</a>
-            </div>
-        </div>
-        <div class="hero-scroll-indicator">
-            <div class="scroll-arrow"></div>
-        </div>
-    </section>
-
-    <section id="about" class="section">
-        <div class="container">
-            <h2 class="section-title">About Me</h2>
-            <div class="about-content">
-                <div class="about-image-container">
-                    <div class="about-image">NY</div>
-                    <div class="about-image-decoration"></div>
-                </div>
-                <div class="about-text">
-                    <p class="about-intro">I'm an AI & Electronics Engineering student at Indira Gandhi Delhi Technical University for Women, driven by a passion for harnessing the transformative potential of Artificial Intelligence, Machine Learning, and Generative AI.</p>
-                    <p>My mission is clear: to build technology that doesn't just innovate—but empowers and creates meaningful impact. From developing AI-powered mental wellness chatbots to creating immersive VR therapeutic spaces, my journey reflects a commitment to solving real-world problems through ethical, user-centric solutions.</p>
-                    <p>I believe in the power of technology to promote financial and social inclusion, and I'm constantly experimenting with new ways to turn meaningful ideas into reality. With a strong foundation in both technical expertise and creative problem-solving, I strive to be a purpose-driven technologist who uses AI not just to build the future, but to empower it.</p>
-                    <div class="about-stats">
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section id="education" class="section">
-        <div class="container">
-            <h2 class="section-title">Education</h2>
-            <div class="education-timeline">
-                <div class="education-item">
-                    <div class="education-icon">🎓</div>
-                    <div class="education-content">
-                        <h3>Bachelor of Technology - Electronics & Communication (AI Specialization)</h3>
-                        <p class="education-school">Indira Gandhi Delhi Technical University for Women</p>
-                        <p class="education-date">Nov 2022 - May 2026</p>
-                        <p class="education-grade">CGPA: 8.41</p>
-                        <p class="education-description">Specializing in AI with a strong foundation in electronics and communication engineering. Focusing on machine learning, computer vision, and signal processing.</p>
-                    </div>
-                </div>
-                <div class="education-item">
-                    <div class="education-icon">📚</div>
-                    <div class="education-content">
-                        <h3>CBSE Class XII</h3>
-                        <p class="education-school">Kendriya Vidyalaya Sadiq Nagar</p>
-                        <p class="education-date">May 2022</p>
-                        <p class="education-grade">76%</p>
-                        <p class="education-description">Completed senior secondary education with focus on science and mathematics, building strong analytical foundation.</p>
-                    </div>
-                </div>
-                <div class="education-item">
-                    <div class="education-icon">🏆</div>
-                    <div class="education-content">
-                        <h3>CBSE Class X</h3>
-                        <p class="education-school">Kendriya Vidyalaya Sadiq Nagar</p>
-                        <p class="education-date">March 2020</p>
-                        <p class="education-grade">88%</p>
-                        <p class="education-description">Strong foundation in core subjects with excellent academic performance and leadership roles.</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section id="skills" class="section">
-        <div class="container">
-            <h2 class="section-title">Skills & Expertise</h2>
-            <div class="skills-grid">
-                <div class="skill-category">
-                    <div class="skill-icon">🤖</div>
-                    <h3>AI & Machine Learning</h3>
-                    <div class="skill-tags">
-                        <span class="skill-tag">Generative AI</span>
-                        <span class="skill-tag">Prompt Engineering</span>
-                        <span class="skill-tag">OCR</span>
-                        <span class="skill-tag">Computer Vision</span>
-                        <span class="skill-tag">DeepFace</span>
-                        <span class="skill-tag">TensorFlow</span>
-                    </div>
-                </div>
-                <div class="skill-category">
-                    <div class="skill-icon">💻</div>
-                    <h3>Programming</h3>
-                    <div class="skill-tags">
-                        <span class="skill-tag">Python</span>
-                        <span class="skill-tag">Java</span>
-                        <span class="skill-tag">C</span>
-                        <span class="skill-tag">SQL</span>
-                        <span class="skill-tag">R</span>
-                        <span class="skill-tag">MATLAB</span>
-                    </div>
-                </div>
-                <div class="skill-category">
-                    <div class="skill-icon">🌐</div>
-                    <h3>Web Development</h3>
-                    <div class="skill-tags">
-                        <span class="skill-tag">React</span>
-                        <span class="skill-tag">HTML</span>
-                        <span class="skill-tag">CSS</span>
-                        <span class="skill-tag">JavaScript</span>
-                        <span class="skill-tag">Streamlit</span>
-                        <span class="skill-tag">A-Frame</span>
-                    </div>
-                </div>
-                <div class="skill-category">
-                    <div class="skill-icon">🥽</div>
-                    <h3>AR/VR & 3D</h3>
-                    <div class="skill-tags">
-                        <span class="skill-tag">Unity</span>
-                        <span class="skill-tag">Blender</span>
-                        <span class="skill-tag">Virtual Reality</span>
-                        <span class="skill-tag">3D Modeling</span>
-                        <span class="skill-tag">Metaverse</span>
-                    </div>
-                </div>
-                <div class="skill-category">
-                    <div class="skill-icon">🛠️</div>
-                    <h3>Tools & Technologies</h3>
-                    <div class="skill-tags">
-                        <span class="skill-tag">Git</span>
-                        <span class="skill-tag">GitHub</span>
-                        <span class="skill-tag">VS Code</span>
-                        <span class="skill-tag">IntelliJ</span>
-                        <span class="skill-tag">OpenCV</span>
-                    
-                    </div>
-                </div>
-                <div class="skill-category">
-                    <div class="skill-icon">🎯</div>
-                    <h3>Soft Skills</h3>
-                    <div class="skill-tags">
-                        <span class="skill-tag">Leadership</span>
-                        <span class="skill-tag">Problem Solving</span>
-                        <span class="skill-tag">Communication</span>
-                        <span class="skill-tag">Team Collaboration</span>
-                        <span class="skill-tag">Critical Thinking</span>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section id="projects" class="section">
-        <div class="container">
+        <!-- Projects Section -->
+        <section class="projects" id="projects">
             <h2 class="section-title">Featured Projects</h2>
             <div class="projects-grid">
-                <div class="project-card">
-                    <div class="project-header">
-                        <div class="project-icon">🔐</div>
-                        <h3>CodeBloom - Document Verification System</h3>
-                        <p class="project-date">June 2025</p>
-                    </div>
-                    <div class="project-content">
-                        <p>Real-time ID & age verification system using OCR and DeepFace technology to combat identity fraud. Features live selfie capture, face matching, and comprehensive security layers.</p>
-                        <div class="project-features">
-                            <span class="feature">✓ Real-time verification</span>
-                            <span class="feature">✓ Face matching</span>
-                            <span class="feature">✓ OCR integration</span>
+                <div class="project-cube">
+                    <div class="cube-inner">
+                        <div class="cube-face">
+                            <h3 style="color: #00ffff; margin-bottom: 1rem;">🔍 CodeBloom</h3>
+                            <p>AI-powered Indian Document Verification System</p>
+                            <div style="margin-top: 1rem; font-size: 0.9rem; opacity: 0.8;">
+                                Winner - Zynga Hackathon 2025
+                            </div>
                         </div>
-                        <div class="project-tech">
-                            <span class="tech-tag">OCR (Tesseract)</span>
-                            <span class="tech-tag">OpenCV</span>
-                            <span class="tech-tag">DeepFace</span>
-                            <span class="tech-tag">Streamlit</span>
-                            <span class="tech-tag">AES-256</span>
+                        <div class="cube-face cube-back">
+                            <p><strong>Technologies:</strong> OCR (Tesseract), OpenCV, DeepFace, Streamlit</p>
+                            <p><strong>Features:</strong> Real-time ID verification, face matching, liveness detection, AES-256 encryption</p>
+                            <p><strong>Impact:</strong> Solves identity fraud with 90%+ accuracy</p>
                         </div>
                     </div>
-                  
                 </div>
-                <div class="project-card">
-                    <div class="project-header">
-                        <div class="project-icon">🧠</div>
-                        <h3>MindWell AI - Mental Wellness Chatbot</h3>
-                        <p class="project-date">May 2025 - Present</p>
-                    </div>
-                    <div class="project-content">
-                        <p>Developing a Generative AI chatbot focused on mental wellness through breathing techniques, yoga, and mindfulness. Crafted 30+ domain-specific prompts for holistic well-being.</p>
-                        <div class="project-features">
-                            <span class="feature">✓ AI-powered wellness</span>
-                            <span class="feature">✓ Personalized guidance</span>
-                            <span class="feature">✓ Mindfulness techniques</span>
+
+                <div class="project-cube">
+                    <div class="cube-inner">
+                        <div class="cube-face">
+                            <h3 style="color: #00ffff; margin-bottom: 1rem;">☀️ Solar Power Forecasting</h3>
+                            <p>Time-Aware Random Forest ML Model</p>
+                            <div style="margin-top: 1rem; font-size: 0.9rem; opacity: 0.8;">
+                                Published in SCOPUS-indexed ICACCIS 2025
+                            </div>
                         </div>
-                        <div class="project-tech">
-                            <span class="tech-tag">Generative AI</span>
-                            <span class="tech-tag">Prompt Engineering</span>
-                            <span class="tech-tag">Python</span>
-                            <span class="tech-tag">Mental Health</span>
+                        <div class="cube-face cube-back">
+                            <p><strong>Research:</strong> Machine learning model for AC power forecasting in Indian solar farms</p>
+                            <p><strong>Innovation:</strong> Time-aware Random Forest Regression algorithm</p>
+                            <p><strong>Publication:</strong> Accepted by Elsevier-associated conference</p>
                         </div>
                     </div>
-                    
                 </div>
-                <div class="project-card">
-                    <div class="project-header">
-                        <div class="project-icon">🌟</div>
-                        <h3>SOULSTICE GRILLE - VR Therapeutic Spaces</h3>
-                        <p class="project-date">June 2023 - Aug 2023</p>
-                    </div>
-                    <div class="project-content">
-                        <p>Designed therapeutic spaces focused on holistic well-being using Blender and AR-VR technologies. Created immersive meditation areas and café spaces with 15% improvement in user engagement.</p>
-                        <div class="project-features">
-                            <span class="feature">✓ Immersive VR</span>
-                            <span class="feature">✓ Therapeutic design</span>
-                            <span class="feature">✓ 3D environments</span>
+
+                <div class="project-cube">
+                    <div class="cube-inner">
+                        <div class="cube-face">
+                            <h3 style="color: #00ffff; margin-bottom: 1rem;">🧠 MindWell AI</h3>
+                            <p>Generative AI Mental Wellness Chatbot</p>
+                            <div style="margin-top: 1rem; font-size: 0.9rem; opacity: 0.8;">
+                                Ongoing Development
+                            </div>
                         </div>
-                        <div class="project-tech">
-                            <span class="tech-tag">Blender</span>
-                            <span class="tech-tag">AR/VR</span>
-                            <span class="tech-tag">3D Modeling</span>
-                            <span class="tech-tag">Unity</span>
+                        <div class="cube-face cube-back">
+                            <p><strong>Purpose:</strong> Mental wellness through mindfulness, yoga, and breathing techniques</p>
+                            <p><strong>Features:</strong> 30+ targeted prompts, ethical AI design, privacy-first approach</p>
+                            <p><strong>Focus:</strong> Stress relief, emotional balance, and mental health support</p>
                         </div>
                     </div>
-                    
+                </div>
+
+                <div class="project-cube">
+                    <div class="cube-inner">
+                        <div class="cube-face">
+                            <h3 style="color: #00ffff; margin-bottom: 1rem;">🍽️ Soulstice Grille</h3>
+                            <p>Immersive VR Therapeutic Spaces</p>
+                            <div style="margin-top: 1rem; font-size: 0.9rem; opacity: 0.8;">
+                                AR/VR Project using Blender
+                            </div>
+                        </div>
+                        <div class="cube-face cube-back">
+                            <p><strong>Design:</strong> Therapeutic spaces for holistic well-being</p>
+                            <p><strong>Tools:</strong> Blender, AR/VR technologies, 3D modeling</p>
+                            <p><strong>Results:</strong> 15% improvement in user engagement through user testing</p>
+                        </div>
+                    </div>
                 </div>
             </div>
-        </div>
-    </section>
+        </section>
 
-    <section id="experience" class="section">
-        <div class="container">
-            <h2 class="section-title">Experience</h2>
-            <div class="experience-grid">
-                <div class="experience-item">
-                    <div class="experience-header">
-                        <div class="experience-title">Research Lead - PROTEGE IGDTUW</div>
-                        <div class="experience-date">Oct 2024 - Present</div>
-                    </div>
-                    <div class="experience-company">PROTEGE IGDTUW</div>
-                    <ul class="experience-points">
-                        <li>Led a team of 10+ members, overseeing 12+ research initiatives</li>
-                        <li>Organized workshops annually, achieving 35% increase in student participation</li>
-                        <li>Successfully mentored students in AI and ML research, improving project outcomes by 36%</li>
-                    </ul>
+        <!-- Resume Section -->
+        <section class="resume" id="resume">
+            <h2 class="section-title">Achievements & Experience</h2>
+            <div class="resume-folder">
+                <h3 style="color: #00ffff; margin-bottom: 2rem;">🏆 Key Achievements</h3>
+                
+                <div class="achievement-item">
+                    <h4>🥇 Winner - Zynga Hackathon 2025</h4>
+                    <p>Special mention for AI-powered Indian Document Verification System using NLP and Computer Vision</p>
                 </div>
-                <div class="experience-item">
-                    <div class="experience-header">
-                        <div class="experience-title">Prompt Engineering for Generative AI</div>
-                        <div class="experience-date">May 2024 - June 2024</div>
-                    </div>
-                    <div class="experience-company">Professional Training Program</div>
-                    <ul class="experience-points">
-                        <li>Completed 25-hour intensive program mastering advanced prompt design and responsible AI use</li>
-                        <li>Achieved 90%+ accuracy in crafting high-impact prompts across 4+ domains including Tech, Marketing, Design, and Career Development</li>
-                        <li>Enhanced content efficiency by 30% using GenAI tools for real-world tasks</li>
-                    </ul>
-                </div>
-                <div class="experience-item">
-                    <div class="experience-header">
-                        <div class="experience-title">Outreach Core - ASSETMERKLE IGDTUW</div>
-                        <div class="experience-date">May 2024 - Feb 2025</div>
-                    </div>
-                    <div class="experience-company">ASSETMERKLE IGDTUW</div>
-                    <ul class="experience-points">
-                        <li>Managed outreach implementing strategies for improved project management and digital marketing</li>
-                        <li>Successfully organized events, increasing engagement by 30% and brand visibility by 25%</li>
-                    </ul>
-                </div>
-                <div class="experience-item">
-                    <div class="experience-header">
-                        <div class="experience-title">VR Development Intern - METAVERSE</div>
-                        <div class="experience-date">June 2023 - Aug 2023</div>
-                    </div>
-                    <div class="experience-company">METAVERSE</div>
-                    <ul class="experience-points">
-                        <li>Gained hands-on experience in immersive tech, building foundation in HTML, CSS, A-Frame, and Blender</li>
-                        <li>Designed photorealistic models using advanced Blender techniques</li>
-                        <li>Optimized VR/Metaverse sessions (16+) by reducing interaction delays by 20–25%</li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-    </section>
 
-    <section id="achievements" class="section">
-        <div class="container">
-            <h2 class="section-title">Achievements & Recognition</h2>
-            <div class="achievements-grid">
-                <div class="achievement-card">
-                    <div class="achievement-icon">🚀</div>
-                    <h3>PwC Launchpad 3.0</h3>
-                    <p>Selected among 1,000+ students nationwide through competitive multi-stage process</p>
-                    <div class="achievement-badge">Selected</div>
+                <div class="achievement-item">
+                    <h4>🚀 Selected for PwC Launchpad 3.0</h4>
+                    <p>Shortlisted among 1,000+ students nationwide through competitive multi-stage process</p>
                 </div>
-                <div class="achievement-card">
-                    <div class="achievement-icon">🌍</div>
-                    <h3>Millennium Fellowship</h3>
+
+                <div class="achievement-item">
+                    <h4>🌍 Millennium Fellowship Finalist</h4>
                     <p>Advanced to final round (Class of 2025), selected from 25,000+ applicants worldwide across 2,000+ campuses</p>
-                    <div class="achievement-badge">Finalist</div>
                 </div>
-                <div class="achievement-card">
-                    <div class="achievement-icon">🥈</div>
-                    <h3>Solana Web3 Quiz</h3>
-                    <p>Secured 2nd position among 100+ participants, showcasing technical and problem-solving skills</p>
-                    <div class="achievement-badge">2nd Place</div>
-                </div>
-                <div class="achievement-card">
-                    <div class="achievement-icon">🎯</div>
-                    <h3>Youth Parliament</h3>
-                    <p>Ranked Top 5 in Central Government Youth Parliament for excellence in public speaking and critical thinking</p>
-                    <div class="achievement-badge">Top 5</div>
-                </div>
-            </div>
-        </div>
-    </section>
 
-    <section id="contact" class="section">
-        <div class="container">
-            <h2 class="section-title">Let's Connect</h2>
-            <div class="contact-content">
-                <div class="contact-info">
-                    <h3>Get in Touch</h3>
-                    <p>Ready to collaborate on innovative projects or discuss opportunities in AI and VR? I'd love to hear from you!</p>
-                    <div class="contact-methods">
-                        <div class="contact-method">
-                            <div class="contact-icon">📧</div>
-                            <div class="contact-details">
-                                <h4>Email</h4>
-                                <a href="mailto:yadavnaincy52@gmail.com">yadavnaincy52@gmail.com</a>
-                            </div>
-                        </div>
-                        
-                        <div class="contact-method">
-                            <div class="contact-icon">🔗</div>
-                            <div class="contact-details">
-                                <h4>LinkedIn</h4>
-                                <a href="https://www.linkedin.com/in/naincy-yadav-3a63a7263/in" target="_blank">Connect with me</a>
-                            </div>
-                        </div>
-                        <div class="contact-method">
-                            <div class="contact-icon">💻</div>
-                            <div class="contact-details">
-                                <h4>GitHub</h4>
-                                <a href="https://github.com/ydnaincy" target="_blank">View my code</a>
-                            </div>
-                        </div>
-                    </div>
+                <div class="achievement-item">
+                    <h4>🥈 2nd Position - Solana Web3 Quiz</h4>
+                    <p>Among 100+ participants, highlighting technical and problem-solving skills</p>
                 </div>
-                <div class="contact-form">
-                    <h3>Send a Message</h3>
-                    <form id="contact-form">
-                        <div class="form-group">
-                            <input type="text" id="name" name="name" placeholder="Your Name" required>
-                        </div>
-                        <div class="form-group">
-                            <input type="email" id="email" name="email" placeholder="Your Email" required>
-                        </div>
-                        <div class="form-group">
-                            <input type="text" id="subject" name="subject" placeholder="Subject" required>
-                        </div>
-                        <div class="form-group">
-                            <textarea id="message" name="message" placeholder="Your Message" rows="5" required></textarea>
-                        </div>
-                        <button type="submit" class="submit-btn">Send Message</button>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </section>
 
-    <footer>
-        <div class="container">
-            <div class="footer-content">
-                <div class="footer-section">
-                    <h3>Naincy Yadav</h3>
-                    <p>AI Engineer passionate about creating meaningful technology solutions for tomorrow's challenges.</p>
+                <div class="achievement-item">
+                    <h4>🎯 Research Lead - PROTEGE IGDTUW</h4>
+                    <p>Led 10+ member team, managed 12+ research initiatives, achieved 36% improvement in project outcomes</p>
                 </div>
-                <div class="footer-section">
-                    <h4>Quick Links</h4>
-                    <ul>
-                        <li><a href="#about">About</a></li>
-                        <li><a href="#projects">Projects</a></li>
-                        <li><a href="#experience">Experience</a></li>
-                        <li><a href="#contact">Contact</a></li>
-                    </ul>
-                </div>
-                <div class="footer-section">
-                    <h4>Connect</h4>
-                    <div class="social-links">
-                        <a href="https://www.linkedin.com/in/naincy-yadav-3a63a7263/in" target="_blank">LinkedIn</a>
-                        <a href="https://github.com/ydnaincy" target="_blank">GitHub</a>
-                        <a href="mailto:yadavnaincy52@gmail.com">Email</a>
-                    </div>
-                </div>
-            </div>
-            <div class="footer-bottom">
-                <p>&copy; 2025 Naincy Yadav. Designed with passion for innovation and technology.</p>
-                <p>Let's connect and build the future together!</p>
-            </div>
-        </div>
-    </footer>
 
-    <script src="script.js"></script>
+                <div class="achievement-item">
+                    <h4>📊 Academic Excellence</h4>
+                    <p>CGPA: 8.41 in B.Tech Electronics & Communication with AI Specialization</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Contact Section -->
+        <section class="contact" id="contact">
+            <div class="terminal">
+                <div class="terminal-header">
+                    💻 naincy@portfolio:~$ connect
+                </div>
+                
+                <form class="contact-form">
+                    <input type="text" placeholder="$ Enter your name..." required>
+                    <input type="email" placeholder="$ Enter your email..." required>
+                    <textarea rows="4" placeholder="$ Your message..." required></textarea>
+                    <button type="submit" class="send-btn">SEND MESSAGE</button>
+                </form>
+
+                <div class="social-icons">
+                    <a href="https://github.com/ydnaincy" class="social-icon" title="GitHub">🔗</a>
+                    <a href="www.linkedin.com/in/naincy-yadav-3a63a7263" class="social-icon" title="LinkedIn">💼</a>
+                    <a href="mailto:yadavnaincy52@gmail.com" class="social-icon" title="Email">📧</a>
+                    <a href="tel:+919711060289" class="social-icon" title="Phone">📱</a>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <script>
+        // Three.js Background Animation
+        let scene, camera, renderer, particles;
+
+        function initThreeJS() {
+            scene = new THREE.Scene();
+            camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+            renderer = new THREE.WebGLRenderer({ canvas: document.getElementById('bg-canvas'), alpha: true });
+            renderer.setSize(window.innerWidth, window.innerHeight);
+
+            // Create particle system
+            const geometry = new THREE.BufferGeometry();
+            const particleCount = 1000;
+            const positions = new Float32Array(particleCount * 3);
+
+            for (let i = 0; i < particleCount * 3; i++) {
+                positions[i] = (Math.random() - 0.5) * 100;
+            }
+
+            geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+
+            const material = new THREE.PointsMaterial({
+                color: 0x00ffff,
+                size: 0.5,
+                transparent: true,
+                opacity: 0.6
+            });
+
+            particles = new THREE.Points(geometry, material);
+            scene.add(particles);
+
+            camera.position.z = 30;
+
+            animate();
+        }
+
+        function animate() {
+            requestAnimationFrame(animate);
+            
+            particles.rotation.x += 0.001;
+            particles.rotation.y += 0.002;
+            
+            renderer.render(scene, camera);
+        }
+
+        // Smooth scrolling navigation
+        document.querySelectorAll('.nav-dot').forEach(dot => {
+            dot.addEventListener('click', (e) => {
+                const section = e.target.dataset.section;
+                document.getElementById(section).scrollIntoView({ behavior: 'smooth' });
+                
+                document.querySelectorAll('.nav-dot').forEach(d => d.classList.remove('active'));
+                e.target.classList.add('active');
+            });
+        });
+
+        // Intersection Observer for nav dots
+        const sections = document.querySelectorAll('section');
+        const navDots = document.querySelectorAll('.nav-dot');
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const sectionId = entry.target.id;
+                    navDots.forEach(dot => dot.classList.remove('active'));
+                    document.querySelector(`[data-section="${sectionId}"]`).classList.add('active');
+                }
+            });
+        }, { threshold: 0.5 });
+
+        sections.forEach(section => observer.observe(section));
+
+        // Contact form submission
+        document.querySelector('.contact-form').addEventListener('submit', (e) => {
+            e.preventDefault();
+            alert('Thank you for your message! I\'ll get back to you soon.');
+        });
+
+        // Initialize everything when page loads
+        window.addEventListener('load', () => {
+            initThreeJS();
+        });
+
+        // Handle window resize
+        window.addEventListener('resize', () => {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+        });
+
+        // Add scroll-based animations
+        window.addEventListener('scroll', () => {
+            const scrolled = window.pageYOffset;
+            const parallax = document.querySelector('.hero-content');
+            const speed = scrolled * 0.5;
+            
+            if (parallax) {
+                parallax.style.transform = `translateY(${speed}px)`;
+            }
+        });
+    </script>
 </body>
 </html>
